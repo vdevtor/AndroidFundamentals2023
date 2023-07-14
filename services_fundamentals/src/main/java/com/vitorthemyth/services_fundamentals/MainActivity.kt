@@ -1,11 +1,7 @@
 package com.vitorthemyth.services_fundamentals
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.Build
-import android.os.Bundle
+import android.content.*
+import android.os.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -13,6 +9,29 @@ import com.vitorthemyth.services_fundamentals.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+    private var boundService: MyBoundService? = null
+    private var isBound: Boolean = false
+
+    private val connection: ServiceConnection = object : ServiceConnection {
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            val binder = service as MyBoundService.MyBinder
+            boundService = binder.getService()
+            isBound = true
+
+            // Now you can call methods on the boundService
+            // Handle the result as needed
+            val result = boundService?.doSomething()
+            binding.btnStart.text = result
+
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            isBound = false
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -29,6 +48,14 @@ class MainActivity : AppCompatActivity() {
         initViews()
         registerFilter()
         startBackgroundService()
+        bindService()
+    }
+
+    private fun bindService() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            val serviceIntent = Intent(this, MyBoundService::class.java)
+            bindService(serviceIntent, connection, BIND_AUTO_CREATE)
+        },5000)
     }
 
     private fun registerFilter() {
@@ -72,5 +99,10 @@ class MainActivity : AppCompatActivity() {
 
         // Unregister the BroadcastReceiver
         unregisterReceiver(taskCompletedReceiver)
+
+        if (isBound) {
+            unbindService(connection)
+            isBound = false
+        }
     }
 }
