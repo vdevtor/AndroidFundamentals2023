@@ -92,6 +92,32 @@ class MainActivity : AppCompatActivity() {
                 startService(it)
             }
         }
+
+        binding.btnStartMyApp.setOnClickListener {
+            startNewAppAndService()
+        }
+    }
+
+    private fun startNewAppAndService() {
+        val targetAppPackageName = "com.vitorthemyth.androidfundamentals2023"
+        val targetActivityClassName = "com.vitorthemyth.androidfundamentals2023.MainActivity"
+
+        val launchIntent = Intent().apply {
+            setClassName(targetAppPackageName, targetActivityClassName)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        try {
+             startActivity(launchIntent)
+            // Now start the service in the target app
+            val serviceIntent = Intent().apply {
+                component = ComponentName(targetAppPackageName, "com.vitorthemyth.androidfundamentals2023.MyTargetService")
+            }
+            startService(serviceIntent)
+        } catch (e: Exception) {
+            // Handle the case when the target app is not installed
+            e.printStackTrace()
+        }
     }
 
     override fun onDestroy() {
