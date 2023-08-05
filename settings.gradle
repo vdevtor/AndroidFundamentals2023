@@ -16,3 +16,4 @@ rootProject.name = "AndroidFundamentals2023"
 include ':app'
 include ':services_fundamentals'
 include ':broadcast_fundamentals'
+include ':audiorecorder2'
