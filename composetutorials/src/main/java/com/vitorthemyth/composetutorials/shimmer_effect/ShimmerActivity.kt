@@ -52,7 +52,7 @@ class ShimmerActivity : ComponentActivity() {
                             contentAfterLoading = {
                                 Row(
                                     modifier = Modifier
-                                        .fillMaxWidth()
+                                        .fillMaxSize()
                                         .padding(16.dp)
                                 ) {
                                     Icon(
