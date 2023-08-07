@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ComposeTutorials</string>
+    <string name="title_activity_shimmer">ShimmerActivity</string>
+</resources>
