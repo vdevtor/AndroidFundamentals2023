@@ -1,4 +1,4 @@
-package com.vitorthemyth.composetutorials.ui.theme
+package com.vitorthemyth.composetutorials.permissions_handling.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

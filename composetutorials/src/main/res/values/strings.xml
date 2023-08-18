@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ComposeTutorials</string>
     <string name="title_activity_shimmer">ShimmerActivity</string>
+    <string name="title_activity_permission_handler">PermissionHandlerActivity</string>
 </resources>
